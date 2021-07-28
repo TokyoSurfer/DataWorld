@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Writing functions in Python | DataWorld</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Writing functions in Python" />
+<meta name="author" content="Kai Lewis" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A tutorial on how to write functions in Python" />
+<meta property="og:description" content="A tutorial on how to write functions in Python" />
+<link rel="canonical" href="https://tokyosurfer.github.io/DataWorld/jupyter/functions/lambda%20functions/error%20handling/2021/07/28/Python-functions.html" />
+<meta property="og:url" content="https://tokyosurfer.github.io/DataWorld/jupyter/functions/lambda%20functions/error%20handling/2021/07/28/Python-functions.html" />
+<meta property="og:site_name" content="DataWorld" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-07-28T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-07-28T00:00:00-05:00","url":"https://tokyosurfer.github.io/DataWorld/jupyter/functions/lambda%20functions/error%20handling/2021/07/28/Python-functions.html","@type":"BlogPosting","headline":"Writing functions in Python","dateModified":"2021-07-28T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://tokyosurfer.github.io/DataWorld/jupyter/functions/lambda%20functions/error%20handling/2021/07/28/Python-functions.html"},"author":{"@type":"Person","name":"Kai Lewis"},"description":"A tutorial on how to write functions in Python","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/DataWorld/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://tokyosurfer.github.io/DataWorld/feed.xml" title="DataWorld" /><link rel="shortcut icon" type="image/x-icon" href="/DataWorld/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/DataWorld/">DataWorld</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/DataWorld/about/">About Me</a><a class="page-link" href="/DataWorld/search/">Search</a><a class="page-link" href="/DataWorld/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Writing functions in Python</h1><p class="page-description">A tutorial on how to write functions in Python</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-07-28T00:00:00-05:00" itemprop="datePublished">
+        Jul 28, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Kai Lewis</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      7 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/DataWorld/categories/#jupyter">jupyter</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/DataWorld/categories/#functions">functions</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/DataWorld/categories/#lambda functions">lambda functions</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/DataWorld/categories/#error handling">error handling</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/TokyoSurfer/DataWorld/tree/master/_notebooks/2021-07-28-Python functions.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/DataWorld/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/TokyoSurfer/DataWorld/master?filepath=_notebooks%2F2021-07-28-Python+functions.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/DataWorld/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/TokyoSurfer/DataWorld/blob/master/_notebooks/2021-07-28-Python functions.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/DataWorld/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#Introduction-to-functions">Introduction to functions </a></li>
+<li class="toc-entry toc-h1"><a href="#Simple-functions">Simple functions </a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#No-argument">No argument </a></li>
+<li class="toc-entry toc-h2"><a href="#One-argument">One argument </a></li>
+<li class="toc-entry toc-h2"><a href="#Default-argument">Default argument </a></li>
+<li class="toc-entry toc-h2"><a href="#Multiple-arguments">Multiple arguments </a></li>
+<li class="toc-entry toc-h2"><a href="#Return-values">Return values </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#Scope">Scope </a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#Local-scope">Local scope </a></li>
+<li class="toc-entry toc-h2"><a href="#Global-scope">Global scope </a></li>
+<li class="toc-entry toc-h2"><a href="#Naming-variables">Naming variables </a></li>
+<li class="toc-entry toc-h2"><a href="#Global-keyword">Global keyword </a></li>
+<li class="toc-entry toc-h2"><a href="#Nonlocal-keyword">Nonlocal keyword </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#Nested-functions">Nested functions </a></li>
+<li class="toc-entry toc-h1"><a href="#Functions-with-variable-length-arguments">Functions with variable-length arguments </a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#*args">*args </a></li>
+<li class="toc-entry toc-h2"><a href="#**kwargs">**kwargs </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#Lambda-functions">Lambda functions </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-07-28-Python functions.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Introduction-to-functions">
+<a class="anchor" href="#Introduction-to-functions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction to functions<a class="anchor-link" href="#Introduction-to-functions"> </a>
+</h1>
+<p>A function is a group of code that only runs when it is called. They are a common feature of all programming languages as they allow the developer to write blocks of code that perform specific tasks. Furthermore, they reduce repitition in code as the same block of code within a function may be executed over and over.</p>
+<p>In Python, a function is defined using the <em>def</em> keyword. Arguments represent information which can be passed to the function. Any number of arguments may be added to a function, however, when that function is called, the user must define the arguments if they don't contain default values.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Simple-functions">
+<a class="anchor" href="#Simple-functions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Simple functions<a class="anchor-link" href="#Simple-functions"> </a>
+</h1>
+<h2 id="No-argument">
+<a class="anchor" href="#No-argument" aria-hidden="true"><span class="octicon octicon-link"></span></a>No argument<a class="anchor-link" href="#No-argument"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">say_hello</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Hello!"</span><span class="p">)</span>
+    
+<span class="n">say_hello</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Hello!
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="One-argument">
+<a class="anchor" href="#One-argument" aria-hidden="true"><span class="octicon octicon-link"></span></a>One argument<a class="anchor-link" href="#One-argument"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">say_hello</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Hello </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">!"</span><span class="p">)</span>
+    
+<span class="n">say_hello</span><span class="p">(</span><span class="s2">"Kai"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Hello Kai!
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Default-argument">
+<a class="anchor" href="#Default-argument" aria-hidden="true"><span class="octicon octicon-link"></span></a>Default argument<a class="anchor-link" href="#Default-argument"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">say_hello</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="s2">"Kai"</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Hello </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">!"</span><span class="p">)</span>
+    
+<span class="n">say_hello</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Hello Kai!
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Multiple-arguments">
+<a class="anchor" href="#Multiple-arguments" aria-hidden="true"><span class="octicon octicon-link"></span></a>Multiple arguments<a class="anchor-link" href="#Multiple-arguments"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">say_hello</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Hello my name is </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> and I'm </span><span class="si">{</span><span class="n">age</span><span class="si">}</span><span class="s2"> years old!"</span><span class="p">)</span>
+    
+<span class="n">say_hello</span><span class="p">(</span><span class="s2">"Kai"</span><span class="p">,</span> <span class="mi">27</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Hello my name is Kai and I'm 27 years old!
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Return-values">
+<a class="anchor" href="#Return-values" aria-hidden="true"><span class="octicon octicon-link"></span></a>Return values<a class="anchor-link" href="#Return-values"> </a>
+</h2>
+<p>Instead of printing an output, we can return values using the <em>return</em> statement at the end of a function</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">raise_to_power</span><span class="p">(</span><span class="n">value1</span><span class="p">,</span> <span class="n">value2</span><span class="p">):</span>
+    <span class="sd">"""Raise value1 to the power of value2."""</span>
+    <span class="n">new_value</span> <span class="o">=</span> <span class="n">value1</span> <span class="o">**</span> <span class="n">value2</span>
+    <span class="k">return</span> <span class="n">new_value</span>
+
+<span class="n">raise_to_power</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>16</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Scope">
+<a class="anchor" href="#Scope" aria-hidden="true"><span class="octicon octicon-link"></span></a>Scope<a class="anchor-link" href="#Scope"> </a>
+</h1>
+<p>A variable is only available from inside the region it is created, this is referred to as <strong>scope</strong>. There are several differnt types which can be abbreviated to the <strong>LEGB rule</strong>, which stands for <em>Local, Enclosing, Global and Built-in</em>.</p>
+<ul>
+<li>
+<p><strong>Local</strong> (or function) scope is the code block or body of any Python function or lambda expression. This Python scope contains the names that you define inside the function. These names will only be visible from the code of the function. It’s created at function call, not at function definition, so you’ll have as many different local scopes as function calls. This is true even if you call the same function multiple times, or recursively. Each call will result in a new local scope being created.</p>
+</li>
+<li>
+<p><strong>Enclosing</strong> (or nonlocal) scope is a special scope that only exists for nested functions. If the local scope is an inner or nested function, then the enclosing scope is the scope of the outer or enclosing function. This scope contains the names that you define in the enclosing function. The names in the enclosing scope are visible from the code of the inner and enclosing functions.</p>
+</li>
+<li>
+<p><strong>Global</strong> (or module) scope is the top-most scope in a Python program, script, or module. This Python scope contains all of the names that you define at the top level of a program or a module. Names in this Python scope are visible from everywhere in your code.</p>
+</li>
+<li>
+<p><strong>Built-in</strong> scope is a special Python scope that’s created or loaded whenever you run a script or open an interactive session. This scope contains names such as keywords, functions, exceptions, and other attributes that are built into Python. Names in this Python scope are also available from everywhere in your code. It’s automatically loaded by Python when you run a program or script.</p>
+</li>
+</ul>
+<h2 id="Local-scope">
+<a class="anchor" href="#Local-scope" aria-hidden="true"><span class="octicon octicon-link"></span></a>Local scope<a class="anchor-link" href="#Local-scope"> </a>
+</h2>
+<p>A variable created inside a function belongs to the <em>local scope</em> of that function, and can only be used inside that function.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">print_number</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">300</span>
+    <span class="n">new_value</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">value</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">new_value</span><span class="p">)</span>
+    
+<span class="n">print_number</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>300
+200
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Global-scope">
+<a class="anchor" href="#Global-scope" aria-hidden="true"><span class="octicon octicon-link"></span></a>Global scope<a class="anchor-link" href="#Global-scope"> </a>
+</h2>
+<p>A variable created in the main body of a Python script belongs to the <em>global scope</em>. Global variables are available within any scope, global and local.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mi">300</span>
+
+<span class="k">def</span> <span class="nf">print_number</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="n">new_value</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">value</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">new_value</span><span class="p">)</span>
+    
+<span class="n">print_number</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>300
+300
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Naming-variables">
+<a class="anchor" href="#Naming-variables" aria-hidden="true"><span class="octicon octicon-link"></span></a>Naming variables<a class="anchor-link" href="#Naming-variables"> </a>
+</h2>
+<p>If you operate with the same variable name both within and outside a function, Python will treat them as separate variables. One is in the global scope, and the other in the local scope.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mi">300</span>
+
+<span class="k">def</span> <span class="nf">print_number</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">200</span>
+    <span class="n">new_value</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">value</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">new_value</span><span class="p">)</span>
+    
+<span class="n">print_number</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>200
+300
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Global-keyword">
+<a class="anchor" href="#Global-keyword" aria-hidden="true"><span class="octicon octicon-link"></span></a>Global keyword<a class="anchor-link" href="#Global-keyword"> </a>
+</h2>
+<p>If you need to create a global variable, but are within the local scope of a function, you may use the <em>global</em> keyword.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">print_number</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">x</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">200</span>
+    <span class="n">new_value</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">value</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">new_value</span><span class="p">)</span>
+    
+<span class="n">print_number</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>200
+200
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Nonlocal-keyword">
+<a class="anchor" href="#Nonlocal-keyword" aria-hidden="true"><span class="octicon octicon-link"></span></a>Nonlocal keyword<a class="anchor-link" href="#Nonlocal-keyword"> </a>
+</h2>
+<p>Similar to the <em>global</em> keyword, the <em>nonlocal</em> keyword can be used to access nonlocal variables from enclosing functions and updated. The nonlocal statement consists of the nonlocal keyword followed by one or more names separated by commas. These names will refer to the same names in the enclosing Python scope.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">nonlocal_func</span><span class="p">():</span>
+    <span class="sd">"""Prints the value of var"""</span>
+    
+    <span class="c1"># Define var</span>
+    <span class="n">var</span> <span class="o">=</span> <span class="mi">100</span>
+    
+    <span class="c1"># Define inner_func</span>
+    <span class="k">def</span> <span class="nf">inner_func</span><span class="p">():</span>
+        <span class="sd">"""Print s var incremented by 100"""</span>
+        <span class="k">nonlocal</span> <span class="n">var</span>
+        <span class="n">var</span> <span class="o">+=</span> <span class="mi">100</span>
+        
+    <span class="n">inner_func</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+
+<span class="c1"># Call nonlocal_func</span>
+<span class="n">nonlocal_func</span><span class="p">()</span>
+        
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>200
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <em>nonlocal</em> keyword tells Python that you'll be modifying <em>var</em> inside the <em>inner_func</em> function. This change is reflected in the printed value, which was originally 100, but is now 200.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Nested-functions">
+<a class="anchor" href="#Nested-functions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Nested functions<a class="anchor-link" href="#Nested-functions"> </a>
+</h1>
+<p>Sometimes it's necessary to nest functions within functions. This is helpful when youw want to avoid writing out the same computations within a function repeatedly. There's nothing new with nested functions, you simply embed one inside the other.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">shouting</span><span class="p">(</span><span class="n">word1</span><span class="p">,</span> <span class="n">word2</span><span class="p">,</span> <span class="n">word3</span><span class="p">):</span>
+    <span class="sd">"""Returns a tuple of strings concatenated with '!!!'."""</span>
+
+    <span class="c1"># Define inner</span>
+    <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+        <span class="sd">"""Returns a string concatenated with '!!!'."""</span>
+        <span class="k">return</span> <span class="n">word</span> <span class="o">+</span> <span class="s1">'!!!'</span>
+
+    <span class="c1"># Return a tuple of strings</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">inner</span><span class="p">(</span><span class="n">word1</span><span class="p">),</span> <span class="n">inner</span><span class="p">(</span><span class="n">word2</span><span class="p">),</span> <span class="n">inner</span><span class="p">(</span><span class="n">word3</span><span class="p">))</span>
+
+<span class="c1"># Call three_shouts() and print</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">shouting</span><span class="p">(</span><span class="s1">'One'</span><span class="p">,</span> <span class="s1">'Two'</span><span class="p">,</span> <span class="s1">'Three'</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>('One!!!', 'Two!!!', 'Three!!!')
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Another reason for nesting function is the idea of <strong>closure</strong>. This means that the nested or inner function remembers the state of its enclosing scope when called. Thus, anything defined locally in the enclosing scope is available to the inner function even when the outer function has finished execution.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">echo</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="sd">"""Returns the inner_echo function."""</span>
+
+    <span class="c1"># Define inner_echo</span>
+    <span class="k">def</span> <span class="nf">inner_echo</span><span class="p">(</span><span class="n">word1</span><span class="p">):</span>
+        <span class="sd">"""Concatenate n copies of word1."""</span>
+        <span class="n">echo_word</span> <span class="o">=</span> <span class="n">word1</span> <span class="o">*</span> <span class="n">n</span>
+        <span class="k">return</span> <span class="n">echo_word</span>
+
+    <span class="c1"># Return inner_echo</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">inner_echo</span><span class="p">)</span>
+
+<span class="c1"># Call echo: twice</span>
+<span class="n">twice</span> <span class="o">=</span> <span class="n">echo</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Call echo: thrice</span>
+<span class="n">thrice</span> <span class="o">=</span> <span class="n">echo</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># Call twice() and thrice() then print</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">twice</span><span class="p">(</span><span class="s1">'hello'</span><span class="p">),</span> <span class="n">thrice</span><span class="p">(</span><span class="s1">'hello'</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>hellohello hellohellohello
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Functions-with-variable-length-arguments">
+<a class="anchor" href="#Functions-with-variable-length-arguments" aria-hidden="true"><span class="octicon octicon-link"></span></a>Functions with variable-length arguments<a class="anchor-link" href="#Functions-with-variable-length-arguments"> </a>
+</h1>
+<p>Flexible arguments allow you to pass a variable number of arguments to a function.</p>
+<p>There are two special symbols:</p>
+<ul>
+<li>
+<strong>*args</strong> (Non-Keyworded arguments)</li>
+<li>
+<strong>**kwargs</strong> (Keyworded arguments)</li>
+</ul>
+<h2 id="*args">
+<a class="anchor" href="#*args" aria-hidden="true"><span class="octicon octicon-link"></span></a>*args<a class="anchor-link" href="#*args"> </a>
+</h2>
+<p>This is used to pass non-key worded, variable-length argument lists to a function. What *args allows you to do is take in more arguments than the number of formal arguments that you previously defined. With *args, any number of extra arguments can be tacked on to your current formal parameters (including zero extra arguments).</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">function1</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="o">*</span><span class="n">argv</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">"First argument :"</span><span class="p">,</span> <span class="n">arg1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">argv</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Next argument through *argv :"</span><span class="p">,</span> <span class="n">arg</span><span class="p">)</span>
+        
+<span class="c1"># Call function1</span>
+<span class="n">function1</span><span class="p">(</span><span class="s1">'Hello'</span><span class="p">,</span> <span class="s1">'My'</span><span class="p">,</span> <span class="s1">'Name'</span><span class="p">,</span> <span class="s1">'Is'</span><span class="p">,</span> <span class="s1">'Kai'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>First argument : Hello
+Next argument through *argv : My
+Next argument through *argv : Name
+Next argument through *argv : Is
+Next argument through *argv : Kai
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="**kwargs">
+<a class="anchor" href="#**kwargs" aria-hidden="true"><span class="octicon octicon-link"></span></a>**kwargs<a class="anchor-link" href="#**kwargs"> </a>
+</h2>
+<p>This is used to pass key worded, variable-length argument lists to a function. One can think of the kwargs as being a dictionary that maps each keyword to the value that we pass alongside it. That is why when we iterate over the kwargs there doesn’t seem to be any order in which they were printed out.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+<span class="k">def</span> <span class="nf">function2</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="s2">"</span><span class="si">%s</span><span class="s2"> == </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+
+<span class="c1"># Call function2</span>
+<span class="n">function2</span><span class="p">(</span><span class="n">first</span> <span class="o">=</span><span class="s1">'Hello'</span><span class="p">,</span> <span class="n">second</span> <span class="o">=</span><span class="s1">'My'</span><span class="p">,</span> <span class="n">third</span> <span class="o">=</span><span class="s1">'Name'</span><span class="p">,</span> <span class="n">fourth</span> <span class="o">=</span> <span class="s1">'Is'</span><span class="p">,</span> <span class="n">fifth</span> <span class="o">=</span> <span class="s1">'Kai'</span><span class="p">)</span>   
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>first == Hello
+second == My
+third == Name
+fourth == Is
+fifth == Kai
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Lambda-functions">
+<a class="anchor" href="#Lambda-functions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lambda functions<a class="anchor-link" href="#Lambda-functions"> </a>
+</h1>
+<p>These are little, anonymous functions, subject to a more restrictive but concise syntax than regular Python functions.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">echo_word</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">word1</span><span class="p">,</span> <span class="n">echo</span><span class="p">:</span> <span class="n">word1</span> <span class="o">*</span> <span class="n">echo</span><span class="p">)</span>
+
+<span class="c1"># Call echo_word: result</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">echo_word</span><span class="p">(</span><span class="s1">'hey'</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Print result</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>heyheyheyheyhey
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="TokyoSurfer/DataWorld"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/DataWorld/jupyter/functions/lambda%20functions/error%20handling/2021/07/28/Python-functions.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/DataWorld/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/DataWorld/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/DataWorld/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Data science and project blog for Kai</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/TokyoSurfer" title="TokyoSurfer"><svg class="svg-icon grey"><use xlink:href="/DataWorld/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

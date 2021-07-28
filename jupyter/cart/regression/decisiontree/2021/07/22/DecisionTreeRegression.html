@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Decision Tree Regression (CART) | DataWorld</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Decision Tree Regression (CART)" />
+<meta name="author" content="Kai Lewis" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A tutorial on how to run decision tree regression in Python SciKit-learn" />
+<meta property="og:description" content="A tutorial on how to run decision tree regression in Python SciKit-learn" />
+<link rel="canonical" href="https://tokyosurfer.github.io/DataWorld/jupyter/cart/regression/decisiontree/2021/07/22/DecisionTreeRegression.html" />
+<meta property="og:url" content="https://tokyosurfer.github.io/DataWorld/jupyter/cart/regression/decisiontree/2021/07/22/DecisionTreeRegression.html" />
+<meta property="og:site_name" content="DataWorld" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-07-22T00:00:00-05:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-07-22T00:00:00-05:00","url":"https://tokyosurfer.github.io/DataWorld/jupyter/cart/regression/decisiontree/2021/07/22/DecisionTreeRegression.html","@type":"BlogPosting","headline":"Decision Tree Regression (CART)","dateModified":"2021-07-22T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://tokyosurfer.github.io/DataWorld/jupyter/cart/regression/decisiontree/2021/07/22/DecisionTreeRegression.html"},"author":{"@type":"Person","name":"Kai Lewis"},"description":"A tutorial on how to run decision tree regression in Python SciKit-learn","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/DataWorld/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://tokyosurfer.github.io/DataWorld/feed.xml" title="DataWorld" /><link rel="shortcut icon" type="image/x-icon" href="/DataWorld/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/DataWorld/">DataWorld</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/DataWorld/about/">About Me</a><a class="page-link" href="/DataWorld/search/">Search</a><a class="page-link" href="/DataWorld/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Decision Tree Regression (CART)</h1><p class="page-description">A tutorial on how to run decision tree regression in Python SciKit-learn</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-07-22T00:00:00-05:00" itemprop="datePublished">
+        Jul 22, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Kai Lewis</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/DataWorld/categories/#jupyter">jupyter</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/DataWorld/categories/#CART">CART</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/DataWorld/categories/#regression">regression</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/DataWorld/categories/#decisiontree">decisiontree</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/TokyoSurfer/DataWorld/tree/master/_notebooks/2021-07-22-DecisionTreeRegression.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/DataWorld/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/TokyoSurfer/DataWorld/master?filepath=_notebooks%2F2021-07-22-DecisionTreeRegression.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/DataWorld/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/TokyoSurfer/DataWorld/blob/master/_notebooks/2021-07-22-DecisionTreeRegression.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/DataWorld/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#About">About </a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#Advantages-of-CARTs">Advantages of CARTs </a></li>
+<li class="toc-entry toc-h2"><a href="#Disadvantages-of-CARTs">Disadvantages of CARTs </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#Import-packages">Import packages </a></li>
+<li class="toc-entry toc-h1"><a href="#Exploratory-Data-Analysis">Exploratory Data Analysis </a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#Dataset-transformations">Dataset transformations </a></li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-07-22-DecisionTreeRegression.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="About">
+<a class="anchor" href="#About" aria-hidden="true"><span class="octicon octicon-link"></span></a>About<a class="anchor-link" href="#About"> </a>
+</h1>
+<p>Decision trees are one of the best known <em>supervised</em> learning method used for both <strong>classification</strong> and <strong>regression</strong>. The goal is to create a model that predicts the value of a target variable by learning simple decision rules inferred from the data features. A decision tree can be seen a piecewise constant approximation.</p>
+<p>The CART algorithm provides the foundation for important methods like bagged decision trees, random forest and boosted decision trees. The output of a CART is a decision tree where each fork is a split in a predictor variable and each end node contains a prediction for the response variable. Essentially, it sequentially asks a series of if-else questions about individual features in a dataset in order to split it for classification.</p>
+<h2 id="Advantages-of-CARTs">
+<a class="anchor" href="#Advantages-of-CARTs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Advantages of CARTs<a class="anchor-link" href="#Advantages-of-CARTs"> </a>
+</h2>
+<ul>
+<li>Decision tree model can be used for both classification and regression problems</li>
+<li>Outputs of decision trees are easily understood</li>
+<li>Data pre-processing step is easier as CARTs don't require normalisation of data (they may each have different scales)</li>
+<li>Not largely impaced by outliers or missing values</li>
+<li>Can handle both numerical and categorical variables</li>
+<li>Non-parametric method, therefore, makes no assumptions about the underlying distributions of the data</li>
+</ul>
+<h2 id="Disadvantages-of-CARTs">
+<a class="anchor" href="#Disadvantages-of-CARTs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Disadvantages of CARTs<a class="anchor-link" href="#Disadvantages-of-CARTs"> </a>
+</h2>
+<ul>
+<li>Overfitting is common in decision trees, as the algorithm continually makes new hypotheses to reduce training set error but incidentally increase test set error. This may be accounted for by setting constraints on model parameters.</li>
+<li>Small changes in data tends to cause large differences in tree structure</li>
+<li>Can take longer to train the model than other algorithms</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Import-packages">
+<a class="anchor" href="#Import-packages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Import packages<a class="anchor-link" href="#Import-packages"> </a>
+</h1>
+<p>The packages we need for the downstream analysis</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">plotly_express</span> <span class="k">as</span> <span class="nn">px</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Exploratory-Data-Analysis">
+<a class="anchor" href="#Exploratory-Data-Analysis" aria-hidden="true"><span class="octicon octicon-link"></span></a>Exploratory Data Analysis<a class="anchor-link" href="#Exploratory-Data-Analysis"> </a>
+</h1>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mpg_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"./Datasets/auto-mpg.csv"</span><span class="p">)</span>
+
+<span class="n">mpg_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mpg</th>
+      <th>cylinders</th>
+      <th>displacement</th>
+      <th>horsepower</th>
+      <th>weight</th>
+      <th>acceleration</th>
+      <th>model year</th>
+      <th>origin</th>
+      <th>car name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>18.0</td>
+      <td>8</td>
+      <td>307.0</td>
+      <td>130</td>
+      <td>3504</td>
+      <td>12.0</td>
+      <td>70</td>
+      <td>1</td>
+      <td>chevrolet chevelle malibu</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>15.0</td>
+      <td>8</td>
+      <td>350.0</td>
+      <td>165</td>
+      <td>3693</td>
+      <td>11.5</td>
+      <td>70</td>
+      <td>1</td>
+      <td>buick skylark 320</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>18.0</td>
+      <td>8</td>
+      <td>318.0</td>
+      <td>150</td>
+      <td>3436</td>
+      <td>11.0</td>
+      <td>70</td>
+      <td>1</td>
+      <td>plymouth satellite</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>16.0</td>
+      <td>8</td>
+      <td>304.0</td>
+      <td>150</td>
+      <td>3433</td>
+      <td>12.0</td>
+      <td>70</td>
+      <td>1</td>
+      <td>amc rebel sst</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>17.0</td>
+      <td>8</td>
+      <td>302.0</td>
+      <td>140</td>
+      <td>3449</td>
+      <td>10.5</td>
+      <td>70</td>
+      <td>1</td>
+      <td>ford torino</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mpg_df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mpg</th>
+      <th>cylinders</th>
+      <th>displacement</th>
+      <th>weight</th>
+      <th>acceleration</th>
+      <th>model year</th>
+      <th>origin</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>398.000000</td>
+      <td>398.000000</td>
+      <td>398.000000</td>
+      <td>398.000000</td>
+      <td>398.000000</td>
+      <td>398.000000</td>
+      <td>398.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>23.514573</td>
+      <td>5.454774</td>
+      <td>193.425879</td>
+      <td>2970.424623</td>
+      <td>15.568090</td>
+      <td>76.010050</td>
+      <td>1.572864</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>7.815984</td>
+      <td>1.701004</td>
+      <td>104.269838</td>
+      <td>846.841774</td>
+      <td>2.757689</td>
+      <td>3.697627</td>
+      <td>0.802055</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>9.000000</td>
+      <td>3.000000</td>
+      <td>68.000000</td>
+      <td>1613.000000</td>
+      <td>8.000000</td>
+      <td>70.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>17.500000</td>
+      <td>4.000000</td>
+      <td>104.250000</td>
+      <td>2223.750000</td>
+      <td>13.825000</td>
+      <td>73.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>23.000000</td>
+      <td>4.000000</td>
+      <td>148.500000</td>
+      <td>2803.500000</td>
+      <td>15.500000</td>
+      <td>76.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>29.000000</td>
+      <td>8.000000</td>
+      <td>262.000000</td>
+      <td>3608.000000</td>
+      <td>17.175000</td>
+      <td>79.000000</td>
+      <td>2.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>46.600000</td>
+      <td>8.000000</td>
+      <td>455.000000</td>
+      <td>5140.000000</td>
+      <td>24.800000</td>
+      <td>82.000000</td>
+      <td>3.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mpg_df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 398 entries, 0 to 397
+Data columns (total 9 columns):
+ #   Column        Non-Null Count  Dtype  
+---  ------        --------------  -----  
+ 0   mpg           398 non-null    float64
+ 1   cylinders     398 non-null    int64  
+ 2   displacement  398 non-null    float64
+ 3   horsepower    398 non-null    object 
+ 4   weight        398 non-null    int64  
+ 5   acceleration  398 non-null    float64
+ 6   model year    398 non-null    int64  
+ 7   origin        398 non-null    int64  
+ 8   car name      398 non-null    object 
+dtypes: float64(3), int64(4), object(2)
+memory usage: 28.1+ KB
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Dataset-transformations">
+<a class="anchor" href="#Dataset-transformations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dataset transformations<a class="anchor-link" href="#Dataset-transformations"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">horsepower</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">horsepower</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'float'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">scale</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">-</span><span class="n">a</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="o">/</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">-</span><span class="n">a</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">b</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mpg_scale</span> <span class="o">=</span> <span class="n">mpg_df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mpg_scale</span> <span class="p">[</span><span class="s1">'displacement'</span><span class="p">]</span> <span class="o">=</span> <span class="n">scale</span><span class="p">(</span><span class="n">mpg_scale</span><span class="p">[</span><span class="s1">'displacement'</span><span class="p">])</span>
+<span class="n">mpg_scale</span><span class="p">[</span><span class="s1">'horsepower'</span><span class="p">]</span> <span class="o">=</span> <span class="n">scale</span><span class="p">(</span><span class="n">mpg_scale</span><span class="p">[</span><span class="s1">'horsepower'</span><span class="p">])</span>
+<span class="n">mpg_scale</span> <span class="p">[</span><span class="s1">'acceleration'</span><span class="p">]</span> <span class="o">=</span> <span class="n">scale</span><span class="p">(</span><span class="n">mpg_scale</span><span class="p">[</span><span class="s1">'acceleration'</span><span class="p">])</span>
+<span class="n">mpg_scale</span> <span class="p">[</span><span class="s1">'weight'</span><span class="p">]</span> <span class="o">=</span> <span class="n">scale</span><span class="p">(</span><span class="n">mpg_scale</span><span class="p">[</span><span class="s1">'weight'</span><span class="p">])</span>
+<span class="n">mpg_scale</span><span class="p">[</span><span class="s1">'mpg'</span><span class="p">]</span> <span class="o">=</span> <span class="n">scale</span><span class="p">(</span><span class="n">mpg_scale</span><span class="p">[</span><span class="s1">'mpg'</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Convert object variables to categories</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'horsepower'</span><span class="p">,</span> <span class="s1">'car name'</span><span class="p">]:</span>
+    <span class="n">mpg_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">mpg_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'category'</span><span class="p">)</span>
+
+<span class="n">mpg_df</span><span class="p">[</span><span class="s1">'Country_code'</span><span class="p">]</span> <span class="o">=</span> <span class="n">mpg_df</span><span class="o">.</span><span class="n">origin</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="s1">'USA'</span><span class="p">,</span><span class="s1">'Europe'</span><span class="p">,</span><span class="s1">'Japan'</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>**Need some plots on dataset</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="TokyoSurfer/DataWorld"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/DataWorld/jupyter/cart/regression/decisiontree/2021/07/22/DecisionTreeRegression.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/DataWorld/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/DataWorld/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/DataWorld/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Data science and project blog for Kai</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/TokyoSurfer" title="TokyoSurfer"><svg class="svg-icon grey"><use xlink:href="/DataWorld/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
