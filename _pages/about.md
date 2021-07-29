@@ -37,7 +37,7 @@ My role is to provide technical support for field-based digital horticulture res
 *April 2018 - July 2020*
 
 ## Education 
-**Master of Science (MSc)**, Plant Pathology and Statistics, First class honours, Lincoln University, Graduated 2018
+**Master of Science (MSc)**, Plant Pathology and Statistics, First class honours, Lincoln University, Graduated 2018   
 **Bachelor of Science (BSc)**, Microbiology and Statistics, University of Auckland, Graduated 2015
 
 ## Distinctions
