@@ -28,6 +28,7 @@ My role is to provide technical support for field-based digital horticulture res
 * Provide programming, remote sensing and data analytics assistance in horticultural research (e.g. image pre-processing, statistical analysis).
 * Preparation of client reports, conference presentations and peer-reviewed scientific publications.
 * Manage several projects, including overseeing the set-up and maintenance of over 30 weather stations nation-wide. 
+
 ### **Achievements**
 * Generated several epidemiological disease risk models, incorporating numerous statistical methods (e.g. Multiple regression, Logistic regression, Random forest, Support Vector Machines etc) 
 * Designed and built Raspberry Pi device for embedding metadata within images for computer vision projects, along with an android app (Android studio and Kotlin).
@@ -45,7 +46,7 @@ My role is to provide technical support for field-based digital horticulture res
 
 **Publication scholarship**, Tertiary Education Commission, Lincoln University
 
-Press release for Master’s thesis: https://bit.ly/3iFQsKn
+Press release for Master’s thesis: [here](https://www.stuff.co.nz/environment/105235286/kauri-dieback-can-live-in-pine-trees-and-pasture-study-finds) and [here](https://www.agscience.org.nz/pine-and-pasture-may-harbour-kauri-dieback/)
 
 ## Peer-reviewed publications
 **Lewis, K.** (2018). Characterising the growth response and pathogenicity of Phytophthora agathidicida in soils from contrasting land-uses (Master's Thesis, Lincoln University).
