@@ -5,7 +5,7 @@ permalink: /about/
 ---
 
 # Kai Lewis
-## kailewis104@gmail.com | 021 152 2685
+## kailewis104@gmail.com
 I am a highly motivated senior research associate at a leading crown research institute, specialising in digital horticulture. My background in microbiology and statistics, coupled with an enthusiasm for programming and electronics, has propelled my interest in data science. Overall I am a detail-oriented individual with exceptional interpersonal skills, poised to leverage my experience and education towards launching a successful career in data science.
 
 ## Key skills
